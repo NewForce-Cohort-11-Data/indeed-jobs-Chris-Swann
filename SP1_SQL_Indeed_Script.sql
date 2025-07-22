@@ -1,11 +1,12 @@
 -- How many rows are in the data_analyst_jobs table?
---Answer: 1793
+-- Answer: 1793
 
-SELECT *
+SELECT 
+	COUNT(*) AS rows
 FROM data_analyst_jobs;
 
 -- Write a query to look at just the first 10 rows. What company is associated with the job posting on the 10th row?
---Answer: ExxonMobil
+-- Answer: ExxonMobil
 
 SELECT *
 FROM
@@ -14,17 +15,17 @@ LIMIT
 	10;
 
 -- How many postings are in Tennessee? How many are there in either Tennessee or Kentucky?
---Answer: 21 ; 27
+-- Answer: 21 ; 27
 
 SELECT 
-	COUNT(location) AS postings_in_TN
+	COUNT(location) AS postings_in_tn
 FROM 
 	data_analyst_jobs
 WHERE 
 	location = 'TN';
 
 SELECT 
-	COUNT(location) AS postings_in_TN_or_KY
+	COUNT(location) AS postings_in_tn_or_ky
 FROM 
 	data_analyst_jobs
 WHERE 
@@ -34,14 +35,14 @@ WHERE
 -- Answer: 416
 
 SELECT 
-	COUNT(location) AS star_rating_above_4_TN
+	COUNT(location) AS star_rating_above_4_tn
 FROM 
 	data_analyst_jobs
 WHERE
 	star_rating > 4;
 
 -- How many postings in the dataset have a review count between 500 and 1000?
---Answer: 151
+-- Answer: 151
 
 SELECT 
 	COUNT(review_count) AS review_count_bw_500_1000
@@ -55,14 +56,6 @@ WHERE
 -- Which state shows the highest average rating?
 -- Answer: See script for part 1 ; NE (max_avg_rating = 4.20)
 
-SELECT 
-	location AS state,
-	ROUND(AVG(star_rating), 2) AS avg_rating
-FROM
-	data_analyst_jobs
-GROUP BY
-	location;
-
 SELECT
 	location AS state,
 	ROUND(AVG(star_rating), 2) AS max_avg_rating
@@ -75,7 +68,7 @@ ORDER BY
 	max_avg_rating DESC;
 
 -- Select unique job titles from the data_analyst_jobs table. How many are there?
--- Answer: See script for part 1 ; 881
+-- Answer: 881
 
 SELECT 
 	DISTINCT title AS unique_job_titles
@@ -98,8 +91,8 @@ WHERE
 	location = 'CA';
 
 -- Find the name of each company and its average star rating for all companies that have more than 5000 reviews across all locations.
--- How many companies are there with more that 5000 reviews across all locations?
--- Answer: 71 
+-- How many companies are there with more than 5000 reviews across all locations?
+-- Answer: 70
 
 SELECT
 	company,
@@ -107,6 +100,8 @@ SELECT
 	SUM(review_count) AS total_reviews
 FROM
 	data_analyst_jobs
+WHERE 
+	company IS NOT NULL
 GROUP BY 
 	company
 HAVING 
@@ -115,6 +110,7 @@ HAVING
 -- Add the code to order the query in #9 from highest to lowest average star rating. 
 -- Which company with more than 5000 reviews across all locations in the dataset has the highest star rating? 
 -- What is that rating?
+-- Answer: Google  ;  4.30
 
 SELECT
 	company,
