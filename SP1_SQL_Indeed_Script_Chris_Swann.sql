@@ -2,7 +2,7 @@
 -- Answer: 1793
 
 SELECT 
-	COUNT(*) AS rows
+	COUNT(*) AS total_rows
 FROM 
 	data_analyst_jobs;
 
@@ -26,12 +26,21 @@ FROM
 WHERE 
 	location = 'TN';
 
+--**
+	
 SELECT 
 	COUNT(location) AS postings_in_tn_or_ky
 FROM 
 	data_analyst_jobs
 WHERE 
 	location = 'TN' OR location = 'KY';
+
+--**CASE statement to output both columns from one query
+
+SELECT
+	COUNT(CASE WHEN location = 'TN' THEN 1 END) AS postings_tn,
+	COUNT(CASE WHEN location IN ('TN', 'KY') THEN 1 END) AS postings_tn_or_ky
+FROM data_analyst_jobs;
 
 -- How many postings in Tennessee have a star rating above 4?
 -- Answer: 3
@@ -64,7 +73,8 @@ SELECT
 	ROUND(AVG(star_rating), 2) AS avg_rating
 FROM
 	data_analyst_jobs
-WHERE star_rating IS NOT NULL
+WHERE 
+	star_rating IS NOT NULL
 GROUP BY
 	location
 ORDER BY
@@ -140,6 +150,8 @@ FROM
 WHERE 
 	title ILIKE '%analyst%';
 
+--**
+
 SELECT
 	COUNT(DISTINCT title) AS count_job_title_analyst
 FROM 
@@ -175,7 +187,7 @@ WHERE
 -- Which three industries are in the top 4 on this list? 
 -- How many jobs have been listed for more than 3 weeks for each of the top 4?	
 
--- Answer: Internet and Software, Banks and Financial Services, Consulting and Business Services
+-- Answer: Internet and Software, Banks and Financial Services, Consulting and Business Services,
 --         Health Care  ;  232
 
 SELECT 
@@ -183,7 +195,7 @@ SELECT
 	skill,
 	days_since_posting
 FROM 
- data_analyst_jobs
+	data_analyst_jobs
 WHERE 
 	skill ILIKE '%SQL%'
 	AND domain IS NOT NULL
