@@ -3,12 +3,14 @@
 
 SELECT 
 	COUNT(*) AS rows
-FROM data_analyst_jobs;
+FROM 
+	data_analyst_jobs;
 
 -- Write a query to look at just the first 10 rows. What company is associated with the job posting on the 10th row?
 -- Answer: ExxonMobil
 
-SELECT *
+SELECT 
+	*
 FROM
 	data_analyst_jobs
 LIMIT
@@ -32,14 +34,15 @@ WHERE
 	location = 'TN' OR location = 'KY';
 
 -- How many postings in Tennessee have a star rating above 4?
--- Answer: 416
+-- Answer: 3
 
 SELECT 
 	COUNT(location) AS star_rating_above_4_tn
 FROM 
 	data_analyst_jobs
 WHERE
-	star_rating > 4;
+	location = 'TN'
+	AND star_rating > 4;
 
 -- How many postings in the dataset have a review count between 500 and 1000?
 -- Answer: 151
@@ -54,18 +57,18 @@ WHERE
 -- Show the average star rating for companies in each state. 
 -- The output should show the state as state and the average rating for the state as avg_rating. 
 -- Which state shows the highest average rating?
--- Answer: See script for part 1 ; NE (max_avg_rating = 4.20)
+-- Answer: See script for part 1 ; NE (highest_avg_rating = 4.20)
 
 SELECT
 	location AS state,
-	ROUND(AVG(star_rating), 2) AS max_avg_rating
+	ROUND(AVG(star_rating), 2) AS avg_rating
 FROM
 	data_analyst_jobs
 WHERE star_rating IS NOT NULL
 GROUP BY
 	location
 ORDER BY
-	max_avg_rating DESC;
+	avg_rating DESC;
 
 -- Select unique job titles from the data_analyst_jobs table. How many are there?
 -- Answer: 881
@@ -74,7 +77,7 @@ SELECT
 	DISTINCT title AS unique_job_titles
 FROM 
 	data_analyst_jobs;
-
+	
 SELECT
 	COUNT(DISTINCT title) AS unique_job_titles
 FROM
